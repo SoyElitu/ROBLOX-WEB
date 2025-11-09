@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Roblox Info — Fansite</title>
+  <meta name="description" content="Sitio de información y herramientas para fans de Roblox: buscador de juegos, novedades, tips de seguridad, mini-quiz y lienzo de dibujo." />
+  <style>
+    :root {
+      --bg: #0b0f17;
+      --panel: #121827;
+      --text: #e5e7eb;
+      --muted: #94a3b8;
+      --brand: #22d3ee; 
+      --brand-2: #a78bfa; 
+      --ok: #34d399;
+      --warn: #fbbf24;
+      --err: #f87171;
+      --shadow: 0 12px 30px rgba(0,0,0,.35);
+      --radius-xl: 18px;
+      --radius-2xl: 26px;
+      --fadeIn: fadeIn .6s ease both;
+    }
+    @media (prefers-color-scheme: light) {
+      :root { --bg: #f7fafc; --panel: #ffffff; --text: #0f172a; --muted:#475569; }
+      body { background-image: radial-gradient(60vw 40vw at 10% -10%, #e0f2fe55, transparent), radial-gradient(70vw 50vw at 110% -20%, #ede9fe55, transparent); }
+    }
+    * { box-sizing: border-box }
+    html, body { height: 100% }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      background-image: radial-gradient(60vw 40vw at -10% -20%, #0ea5e955, transparent), radial-gradient(70vw 50vw at 120% -10%, #8b5cf655, transparent);
+      animation: var(--fadeIn);
+    }
+    a { color: inherit; text-decoration: none }
+    .container { width: min(1100px, 92%); margin: 0 auto }
+    header.nav {
+      position: sticky; top: 0; z-index: 50; backdrop-filter: blur(10px);
+      background: color-mix(in oklab, var(--bg), transparent 35%);
+      border-bottom: 1px solid color-mix(in oklab, var(--text), transparent 88%);
+    }
+    .nav-inner { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:12px 0 }
+    .brand { display:flex; gap:10px; align-items:center; font-weight:800; letter-spacing:.3px }
+    .logo {
+      width:38px; height:38px; border-radius:12px;
+      background: conic-gradient(from 120deg, var(--brand), var(--brand-2));
+      display:grid; place-items:center; color:#0b0f17; font-weight:900; box-shadow: var(--shadow);
+    }
+    .nav-links { display:flex; gap:18px; flex-wrap:wrap; font-weight:600; color:var(--muted) }
+    .chip {
+      display:inline-flex; align-items:center; gap:10px; padding:10px 14px;
+      background: var(--panel); border-radius: 999px; box-shadow: var(--shadow);
+      border: 1px solid color-mix(in oklab, var(--text), transparent 86%);
+    }
+    .btn {
+      border: none; cursor:pointer; font-weight:700; padding:12px 16px; border-radius: 12px;
+      background: linear-gradient(135deg, var(--brand), var(--brand-2)); color:#081017; box-shadow: var(--shadow);
+      transition: transform .06s ease;
+    }
+    .btn:active { transform: translateY(1px) }
+    .hero { padding: 38px 0 24px }
+    .hero h1 { font-size: clamp(26px, 4vw, 42px); line-height:1.1; margin:10px 0 6px }
+    .hero p { color: var(--muted); margin: 0 }
+    .grid { display:grid; gap:18px }
+    @media (min-width: 900px){ .grid-3 { grid-template-columns: repeat(3, 1fr)} }
+    .card {
+      background: var(--panel); border-radius: var(--radius-2xl); padding:18px; box-shadow: var(--shadow);
+      border: 1px solid color-mix(in oklab, var(--text), transparent 85%);
+      animation: var(--fadeIn);
+    }
+    .card h3 { margin: 0 0 10px; font-size: 20px }
+    .muted { color: var(--muted) }
+    .kpi { display:flex; gap:12px; align-items:center }
+    .kpi b { font-size: 22px }
+    .search-row { display:flex; gap:10px; flex-wrap:wrap; align-items:center }
+    .input {
+      flex:1; background: color-mix(in oklab, var(--panel), #000 6%); padding:12px 14px; border-radius:12px;
+      border: 1px solid color-mix(in oklab, var(--text), transparent 85%);
+      color: var(--text)
+    }
+    .pill { font-size:12px; padding:6px 10px; border-radius:999px; border:1px solid color-mix(in oklab, var(--text), transparent 85%); color:var(--muted) }
+    .games { display:grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap:14px }
+    .game {
+      background: color-mix(in oklab, var(--panel), #000 6%); padding:14px; border-radius:16px; border:1px solid color-mix(in oklab, var(--text), transparent 86%);
+    }
+    .game .tag { font-size: 10px; text-transform: uppercase; letter-spacing:.6px; opacity:.8 }
+    details { background: var(--panel); border-radius: 16px; border:1px solid color-mix(in oklab, var(--text), transparent 86%); padding: 12px 14px }
+    details + details { margin-top: 10px }
+    summary { cursor: pointer; font-weight: 700 }
+    .tools { display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:10px }
+    canvas { background: #fff; border-radius: 12px; border: 2px dashed #e5e7eb; width: 100%; max-height: 420px }
+    .quiz-q { font-weight:700; margin: 0 0 8px }
+    .quiz-answers { display:grid; gap:8px; }
+    .quiz-answers button { background: color-mix(in oklab, var(--panel), #000 6%); color:var(--text); border:1px solid color-mix(in oklab, var(--text), transparent 85%); padding:10px 12px; border-radius:12px; cursor:pointer }
+    .quiz-answers button.correct { outline: 2px solid var(--ok) }
+    .quiz-answers button.wrong { outline: 2px solid var(--err) }
+    footer { margin: 28px 0 60px; color:var(--muted); font-size: 14px }
+    .divider { height:1px; background: color-mix(in oklab, var(--text), transparent 88%); margin: 18px 0 }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="container nav-inner">
+      <div class="brand"><div class="logo">R</div> Roblox Info</div>
+      <nav class="nav-links">
+        <a href="#buscador">Juegos</a>
+        <a href="#novedades">Novedades</a>
+        <a href="#seguridad">Seguridad</a>
+        <a href="#dibujo">Dibujo</a>
+        <a href="#quiz">Quiz</a>
+        <a href="#youtubers">Youtubers</a>
+      </nav>
+      <button class="btn" id="themeBtn" aria-label="Cambiar tema">Tema</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <span class="chip">Fansite no oficial</span>
+      <h1>Todo sobre Roblox en un solo lugar</h1>
+      <p class="muted">Explora juegos populares, aprende tips de seguridad, dibuja tu avatar y pon a prueba tus conocimientos.</p>
+    </section>
+
+    <!-- Buscador de juegos -->
+    <section id="buscador" class="card">
+      <h3>🔎 Buscador de juegos</h3>
+      <div class="search-row">
+        <input id="search" class="input" type="search" placeholder="Escribe para filtrar (obby, tycoon, horror, roleplay…)"/>
+        <span class="pill" id="count"></span>
+      </div>
+      <div class="divider"></div>
+      <div class="games" id="games"></div>
+    </section>
+
+    <!-- Roblox juegos con enlaces -->
+    <section id="info-roblox" class="card" style="margin-top:18px">
+      <h3>🧩 Roblox — Información de juegos populares</h3>
+      <p class="muted">Listado ampliado con información básica de los juegos más conocidos.</p>
+      <ul>
+        <li><b>Brookhaven 🏡RP:</b> Roleplay en ciudad. <a href="https://www.roblox.com/games/4924922222/Brookhaven-RP" target="_blank">Ir al juego</a></li>
+        <li><b>Blox Fruits:</b> Combate y exploración con frutas especiales. <a href="https://www.roblox.com/games/2753915549/Blox-Fruits" target="_blank">Ir al juego</a></li>
+        <li><b>Adopt Me!:</b> Mascotas, casas y exploración social. <a href="https://www.roblox.com/games/920587237/Adopt-Me" target="_blank">Ir al juego</a></li>
+        <li><b>DOORS:</b> Horror y puzles. <a href="https://www.roblox.com/games/6516141723/DOORS" target="_blank">Ir al juego</a></li>
+        <li><b>Jailbreak:</b> Policías y criminales. <a href="https://www.roblox.com/games/606849621/Jailbreak" target="_blank">Ir al juego</a></li>
+        <li><b>BedWars:</b> PvP por equipos. <a href="https://www.roblox.com/games/6872265039/BedWars" target="_blank">Ir al juego</a></li>
+        <li><b>Tower of Hell:</b> Obby difícil sin checkpoints. <a href="https://www.roblox.com/games/1962086868/Tower-of-Hell" target="_blank">Ir al juego</a></li>
+        <li><b>Murder Mystery 2:</b> Misterio y roles. <a href="https://www.roblox.com/games/142823291/Murder-Mystery-2" target="_blank">Ir al juego</a></li>
+        <li><b>Arsenal:</b> Shooter rápido. <a href="https://www.roblox.com/games/286090429/Arsenal" target="_blank">Ir al juego</a></li>
+      </ul>
+    </section>
+
+    <!-- Otros juegos -->
+    <section id="otros-juegos" class="card" style="margin-top:18px">
+      <h3>🎮 Zona de otros juegos</h3>
+      <h4>Fortnite</h4>
+      <p class="muted">Juego de acción con construcción y combate en varias modalidades.</p>
+      <ul>
+        <li><b>Battle Royale:</b> 100 jugadores luchan para ser el último en pie.</li>
+        <li><b>Creativo:</b> Construcción libre de mapas y minijuegos.</li>
+        <li><b>Salvar el Mundo:</b> Modo cooperativo de misiones contra enemigos controlados por IA.</li>
+      </ul>
+      <h4 style="margin-top:18px">Minecraft</h4>
+      <p class="muted">Juego sandbox de bloques con exploración, combate y construcción.</p>
+      <ul>
+        <li><b>Supervivencia:</b> Recolecta recursos, lucha contra mobs y sobrevive.</li>
+        <li><b>Creativo:</b> Construye sin límites con todos los bloques disponibles.</li>
+        <li><b>Aventura:</b> Diseñado para mapas de retos creados por la comunidad.</li>
+      </ul>
+    </section>
+
+    <!-- Youtubers -->
+    <section id="youtubers" class="card" style="margin-top:18px">
+      <h3>🎥 Youtubers famosos</h3>
+      <h4>Roblox</h4>
+      <ul>
+        <li><b>Flamingo:</b> Entretenimiento y gameplays de Roblox. <a href="https://www.youtube.com/@Flamingo" target="_blank">Canal</a></li>
+        <li><b>ItsFunneh:</b> Videos de aventuras, roleplay y mini-juegos. <a href="https://www.youtube.com/@ItsFunneh" target="_blank">Canal</a></li>
+        <li><b>Denis:</b> Gameplays y retos de Roblox. <a href="https://www.youtube.com/@Denis" target="_blank">Canal</a></li>
+      </ul>
+      <h4>Fortnite</h4>
+      <ul>
+        <li><b>Ninja:</b> Gameplay competitivo y eventos de Fortnite. <a href="https://www.youtube.com/@Ninja" target="_blank">Canal</a></li>
+        <li><b>Loserfruit:</b> Streams y videos de Fortnite. <a href="https://www.youtube.com/@Loserfruit" target="_blank">Canal</a></li>
+        <li><b>Muselk:</b> Videos de Fortnite y otros juegos. <a href="https://www.youtube.com/@Muselk" target="_blank">Canal</a></li>
+      </ul>
+      <h4>Minecraft</h4>
+      <ul>
+        <li><b>Dream:</b> Videos de speedruns y retos en Minecraft. <a href="https://www.youtube.com/@Dream" target="_blank">Canal</a></li>
+        <li><b>Technoblade:</b> PvP y contenido de Minecraft. <a href="https://www.youtube.com/@Technoblade" target="_blank">Canal</a></li>
+        <li><b>StampyLonghead:</b> Aventuras y tutoriales para jóvenes. <a href="https://www.youtube.com/@stampylonghead" target="_blank">Canal</a></li>
+      </ul>
+    </section>
+
+    <!-- Roblox Reglas y novedades -->
+    <section id="info-roblox-extend" class="card" style="margin-top:18px">
+      <h3>🧩 Roblox — Información extendida</h3>
+      <p class="muted">Toda la información esencial sobre Roblox, sus reglas y enlaces directos a los juegos más populares.</p>
+      <h4>📜 Reglas importantes de Roblox</h4>
+      <ul>
+        <li>No compartir contraseñas ni información personal.</li>
+        <li>No usar exploits o hacks en los juegos.</li>
+        <li>Respetar a otros jugadores y reportar comportamientos inapropiados.</li>
+        <li>No acosar, insultar ni acosar sexualmente a otros jugadores.</li>
+        <li>Seguir las normas de cada juego dentro de Roblox.</li>
+        <li>Roblox puede suspender cuentas que violen sus términos de uso.</li>
+      </ul>
+      <h4>🎮 Juegos famosos con enlaces directos</h4>
+      <ul>
+        <li><b>Brookhaven 🏡RP:</b> <a href="https://www.roblox.com/games/4924922222/Brookhaven-RP" target="_blank">Jugar aquí</a></li>
+        <li><b>Blox Fruits:</b> <a href="https://www.roblox.com/games/2753915549/Blox-Fruits" target="_blank">Jugar aquí</a></li>
+        <li><b>Adopt Me!:</b> <a href="https://www.roblox.com/games/920587237/Adopt-Me" target="_blank">Jugar aquí</a></li>
+        <li><b>DOORS:</b> <a href="https://www.roblox.com/games/6516141723/DOORS" target="_blank">Jugar aquí</a></li>
+        <li><b>Jailbreak:</b> <a href="https://www.roblox.com/games/606849621/Jailbreak" target="_blank">Jugar aquí</a></li>
+        <li><b>BedWars:</b> <a href="https://www.roblox.com/games/6872265039/BedWars" target="_blank">Jugar aquí</a></li>
+        <li><b>Tower of Hell:</b> <a href="https://www.roblox.com/games/1962086868/Tower-of-Hell" target="_blank">Jugar aquí</a></li>
+        <li><b>Murder Mystery 2:</b> <a href="https://www.roblox.com/games/142823291/Murder-Mystery-2" target="_blank">Jugar aquí</a></li>
+        <li><b>Arsenal:</b> <a href="https://www.roblox.com/games/286090429/Arsenal" target="_blank">Jugar aquí</a></li>
+      </ul>
+      <h4>🆕 Novedades recientes</h4>
+      <ul>
+        <li>Implementación de filtros de chat más estrictos para proteger a los jugadores jóvenes.</li>
+        <li>Actualización de avatares y objetos UGC para personalización.</li>
+        <li>Nuevas funciones de grupo y clanes dentro de los juegos.</li>
+        <li>Eventos temáticos con recompensas exclusivas.</li>
+      </ul>
+    </section>
+
+    <footer>
+      © 2025 Roblox Info — No oficial. Sitio de fans.
+    </footer>
+  </main>
+</body>
+</html>
